@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MVC.DataAccess.Data.Contexts;
+using MVC.DataAccess.Repositories;
 
 namespace MVC.Presentation
 
@@ -20,6 +21,7 @@ namespace MVC.Presentation
                 //options.UseSqlServer(builder.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+            builder.Services.AddScoped<IDepartmentRepositery, DepartmentRepositery>();
             #endregion
 
             var app = builder.Build();

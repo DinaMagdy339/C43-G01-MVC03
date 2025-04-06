@@ -7,23 +7,43 @@ using System.Threading.Tasks;
 
 namespace MVC.DataAccess.Repositories
 {
-    internal class DepartmentRepositery(ApplicationDbContext dbContext)
+    // Primary Constructor
+    public class DepartmentRepositery(ApplicationDbContext dbContext) : IDepartmentRepositery
     {
-        private readonly ApplicationDbContext _dbContext = dbContext;
+        private readonly ApplicationDbContext _dbContext = dbContext; // Dependency Injection
+                                                                      // Ask Clr For Creating Object From ApplicationDbContext
 
-        // CRUD operations
         // Get all 
-        // Get by id
-
-        public Department GetById(int id)
+        public IEnumerable<Department> GetAll(bool WithTracking = false)
         {
-            var department = _dbContext.Departments.Find( id);
-            return department;
+            if (WithTracking)
+            {
+                return _dbContext.Departments.ToList();
+            }
+            else
+            {
+                return _dbContext.Departments.AsNoTracking().ToList();
+            }
         }
-
-
+        // Get by id
+        public Department? GetById(int id) => _dbContext.Departments.Find(id);
         // Update
+        public int Update(Department department)
+        {
+            _dbContext.Departments.Update(department); // Update Locally
+            return _dbContext.SaveChanges();
+        }
         // Delete
+        public int Remove(Department department)
+        {
+            _dbContext.Departments.Remove(department); // Remove Locally
+            return _dbContext.SaveChanges();
+        }
         // Insert
+        public int Add(Department department)
+        {
+            _dbContext.Departments.Add(department); // Add Locally
+            return _dbContext.SaveChanges();
+        }
     }
 }
