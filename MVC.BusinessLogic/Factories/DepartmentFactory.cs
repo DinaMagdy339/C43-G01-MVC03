@@ -26,7 +26,7 @@ namespace MVC.BusinessLogic.Factories
             return new DepartmentDetialsDto
             {
                 Id = department.Id,
-                CreatedOn = DateOnly.FromDateTime(department.CreatedOn),
+                DateOfCreation = DateOnly.FromDateTime(department.CreatedOn),
                 Name = department.Name,
                 Code = department.Code,
                 Description = department.Description
