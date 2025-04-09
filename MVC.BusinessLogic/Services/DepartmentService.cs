@@ -24,7 +24,7 @@ namespace MVC.BusinessLogic.Services
             return department is null ? null : department.ToDepartmentDetailsDto();
         }
         //Add Department
-        public int AddDepartment(CreatedDepartmentDto departmentDto)
+        public int CreateDepartment(CreatedDepartmentDto departmentDto)
         {
             var department = departmentDto.ToEntity();
             return _departmentRepositery.Add(department);
