@@ -50,7 +50,19 @@ namespace MVC.Presentation.Controllers
 
         }
 
-            #endregion
+        #endregion
 
+        #region Details of department
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            if (id <= 0) return BadRequest();
+            var department = _departmentService.GetDepartmentById(id);
+            if (department is null) return NotFound();
+            return View(department);
         }
+        #endregion
+
+    }
     }
