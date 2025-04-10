@@ -5,9 +5,11 @@ using MVC.Presentation.ViewModels.DepartmentViewModel;
 
 namespace MVC.Presentation.Controllers
 {
-    public class DepartmentController(IDepartmentService _departmentService , 
-        ILogger<DepartmentController > _logger,
-        IWebHostEnvironment _environment) : Controller
+    public class DepartmentController(
+        IDepartmentService _departmentService,
+        ILogger<DepartmentController> _logger,
+        IWebHostEnvironment _environment
+    ) : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -20,6 +22,7 @@ namespace MVC.Presentation.Controllers
 
         [HttpGet]
         public IActionResult Create() => View();
+
         [HttpPost]
         public IActionResult Create(CreatedDepartmentDto departmentDto)
         {
@@ -48,7 +51,6 @@ namespace MVC.Presentation.Controllers
                 }
             }
             return View(departmentDto);
-
         }
 
         #endregion
@@ -58,33 +60,39 @@ namespace MVC.Presentation.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            if (id <= 0) return BadRequest();
+            if (id <= 0)
+                return BadRequest();
             var department = _departmentService.GetDepartmentById(id);
-            if (department is null) return NotFound();
+            if (department is null)
+                return NotFound();
             return View(department);
         }
         #endregion
 
         #region Edit Department
-        [HttpGet]   
+        [HttpGet]
         public IActionResult Edit(int id)
         {
-            if (id <= 0) return BadRequest();
+            if (id <= 0)
+                return BadRequest();
             var department = _departmentService.GetDepartmentById(id);
-            if (department is null) return NotFound();
+            if (department is null)
+                return NotFound();
             var departmentViewModel = new DepartmentEditViewModel
             {
                 Name = department.Name,
                 Code = department.Code,
                 DateOfCreation = department.DateOfCreation,
-                Description = department.Description
+                Description = department.Description,
             };
             return View(departmentViewModel);
         }
+
         [HttpPost]
         public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel ViewModel)
         {
-            if (ModelState.IsValid) return View(ViewModel);
+            if (ModelState.IsValid)
+                return View(ViewModel);
             {
                 try
                 {
@@ -94,7 +102,7 @@ namespace MVC.Presentation.Controllers
                         Name = ViewModel.Name,
                         Code = ViewModel.Code,
                         DateOfCreation = ViewModel.DateOfCreation,
-                        Description = ViewModel.Description
+                        Description = ViewModel.Description,
                     };
                     int result = _departmentService.UpdateDepartment(UpdatedDepartment);
                     if (result > 0)
@@ -123,12 +131,13 @@ namespace MVC.Presentation.Controllers
         #region Delete Department
         public IActionResult Delete(int id)
         {
-            if (id <= 0) return BadRequest();
+            if (id <= 0)
+                return BadRequest();
             var department = _departmentService.GetDepartmentById(id);
-            if (department is null) return NotFound();
+            if (department is null)
+                return NotFound();
             return View(department);
         }
         #endregion
-
     }
-    }
+}
