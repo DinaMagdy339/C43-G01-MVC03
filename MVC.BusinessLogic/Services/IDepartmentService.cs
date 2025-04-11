@@ -4,7 +4,7 @@ namespace MVC.BusinessLogic.Services
 {
     public interface IDepartmentService
     {
-        int AddDepartment(CreatedDepartmentDto departmentDto);
+        int CreateDepartment(CreatedDepartmentDto departmentDto);
         IEnumerable<DepartmentDto> GetAllDepartments();
         DepartmentDetialsDto? GetDepartmentById(int id);
         bool RemoveDepartment(int id);

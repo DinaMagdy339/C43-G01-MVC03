@@ -12,7 +12,7 @@ namespace MVC.BusinessLogic.DataTransferObjects
        
         public int Id { get; set; }
         public int CreatedBy { get; set; }
-        public DateOnly CreatedOn { get; set; }
+        public DateOnly DateOfCreation { get; set; }
         public int LastModifiedBy { get; set; }
         public DateOnly LastModifiedOn { get; set; }
         public bool IsDeleted { get; set; }
