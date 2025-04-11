@@ -121,12 +121,42 @@ namespace MVC.Presentation.Controllers
         }
         #endregion
         #region Delete Department
+        [HttpGet]
         public IActionResult Delete(int id)
         {
             if (id <= 0) return BadRequest();
             var department = _departmentService.GetDepartmentById(id);
             if (department is null) return NotFound();
             return View(department);
+        }
+        [HttpPost]
+        public IActionResult Delete(int id, IFormCollection form)
+        {
+            if (id == 0) return BadRequest();
+            try
+            {
+                bool result = _departmentService.RemoveDepartment(id);
+                if (result)
+                    return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Department is not deleted");
+                    return RedirectToAction(nameof(Delete), new {id});
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+                else
+                {
+                    _logger.LogError(ex.Message);
+                    return View("ErrorView", ex);
+                }
+            }
+            return View();
         }
         #endregion
 

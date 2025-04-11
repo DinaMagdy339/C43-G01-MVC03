@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MVC.BusinessLogic.Services;
 using MVC.DataAccess.Data.Contexts;
 using MVC.DataAccess.Repositories;
 
@@ -22,6 +23,7 @@ namespace MVC.Presentation
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
             builder.Services.AddScoped<IDepartmentRepositery, DepartmentRepositery>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             #endregion
 
             var app = builder.Build();
