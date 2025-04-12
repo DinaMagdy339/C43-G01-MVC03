@@ -21,152 +21,182 @@ namespace MVC.Presentation.Controllers
         #region Create Department
 
         [HttpGet]
+
         public IActionResult Create() => View();
 
         [HttpPost]
         public IActionResult Create(CreatedDepartmentDto departmentDto)
         {
-            if (ModelState.IsValid) // server side validation
+            if (ModelState.IsValid)
             {
                 try
                 {
                     int result = _departmentService.CreateDepartment(departmentDto);
                     if (result > 0)
+                    {
                         return RedirectToAction(nameof(Index));
+                    }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Department can’t created");
+                        ModelState.AddModelError("", "Failed to add department");
                     }
                 }
                 catch (Exception ex)
                 {
                     if (_environment.IsDevelopment())
                     {
-                        ModelState.AddModelError(string.Empty, ex.Message);
+                        ModelState.AddModelError("", ex.Message);
                     }
                     else
                     {
-                        _logger.LogError(ex.Message);
+                        _logger.LogError("Error occurred while adding department");
                     }
                 }
             }
             return View(departmentDto);
         }
-
         #endregion
 
         #region Details of department
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult Details(int? id)
         {
-            if (id <= 0)
+            if (!id.HasValue)
+            {
                 return BadRequest();
-            var department = _departmentService.GetDepartmentById(id);
+            }
+            var department = _departmentService.GetDepartmentById(id.Value);
             if (department is null)
+            {
                 return NotFound();
+            }
             return View(department);
         }
         #endregion
 
         #region Edit Department
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id)
         {
-            if (id <= 0)
+            if (!id.HasValue)
+            {
                 return BadRequest();
-            var department = _departmentService.GetDepartmentById(id);
+            }
+            var department = _departmentService.GetDepartmentById(id.Value);
             if (department is null)
+            {
                 return NotFound();
-            var departmentViewModel = new DepartmentEditViewModel
+            }
+            var departmentViewModel = new DepartmentEditViewModel()
             {
                 Name = department.Name,
                 Code = department.Code,
-                DateOfCreation = department.DateOfCreation,
                 Description = department.Description,
+                DateOfCreation = department.DateOfCreation,
             };
             return View(departmentViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel ViewModel)
+        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel viewModel)
         {
             if (ModelState.IsValid)
-                return View(ViewModel);
             {
                 try
                 {
-                    var UpdatedDepartment = new UpdatedDepartmentDto
+                    var UpdatedDepartment = new UpdatedDepartmentDto()
                     {
                         Id = id,
-                        Name = ViewModel.Name,
-                        Code = ViewModel.Code,
-                        DateOfCreation = ViewModel.DateOfCreation,
-                        Description = ViewModel.Description,
+                        Name = viewModel.Name,
+                        Code = viewModel.Code,
+                        Description = viewModel.Description,
+                        DateOfCreation = viewModel.DateOfCreation,
                     };
                     int result = _departmentService.UpdateDepartment(UpdatedDepartment);
                     if (result > 0)
+                    {
                         return RedirectToAction(nameof(Index));
+                    }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Department is not updated");
+                        ModelState.AddModelError("", "Failed to update department");
                     }
                 }
                 catch (Exception ex)
                 {
                     if (_environment.IsDevelopment())
                     {
-                        ModelState.AddModelError(string.Empty, ex.Message);
+                        ModelState.AddModelError("", "Department is not Updated");
                     }
                     else
                     {
-                        _logger.LogError(ex.Message);
+                        _logger.LogError("Error occurred while updating department");
                         return View("ErrorView", ex);
                     }
                 }
             }
-            return View(ViewModel);
+
+            return View(viewModel);
         }
         #endregion
         #region Delete Department
-        [HttpGet]
+        //[HttpGet]
+        //public IActionResult Delete(int? id)
+        //{
+        //    if (!id.HasValue)
+        //    {
+        //        return BadRequest();
+        //    }
+        //    var department = _departmentService.GetDepartmentById(id.Value);
+        //    if (department is null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var departmentViewModel = new DepartmentEditViewModel()
+        //    {
+        //        Name = department.Name,
+        //        Code = department.Code,
+        //        Description = department.Description,
+        //        DateOfCreation = department.DateOfCreation
+        //    };
+        //    return View(departmentViewModel);
+        //}
+
+        [HttpPost]
         public IActionResult Delete(int id)
         {
-            if (id <= 0)
+            if (id == 0)
+            {
                 return BadRequest();
-            var department = _departmentService.GetDepartmentById(id);
-            if (department is null)
-                return NotFound();
-            return View(department);
-        }
-        [HttpPost]
-        public IActionResult Delete(int id, IFormCollection form)
-        {
-            if (id == 0) return BadRequest();
+            }
+
             try
             {
-                bool result = _departmentService.RemoveDepartment(id);
-                if (result)
+                bool Deleted = _departmentService.RemoveDepartment(id);
+                if (Deleted)
+                {
                     return RedirectToAction(nameof(Index));
+                }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Department is not deleted");
-                    return RedirectToAction(nameof(Delete), new {id});
+                    ModelState.AddModelError("", "Failed to delete department");
+                    return RedirectToAction(nameof(Delete), new { id });
                 }
             }
             catch (Exception ex)
             {
                 if (_environment.IsDevelopment())
                 {
-                    ModelState.AddModelError(string.Empty, ex.Message);
+                    ModelState.AddModelError("", "Department is not Deleted");
                 }
                 else
                 {
-                    _logger.LogError(ex.Message);
+                    _logger.LogError("Error occurred while deleting department");
                     return View("ErrorView", ex);
                 }
             }
-            return View();
+            return View("ErrorView");
         }
         #endregion
     }
