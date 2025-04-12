@@ -6,8 +6,10 @@
 <div class="row justify-content-center align-content-center mt-3">
     <h1 class="col-8 my-4">Create Department</h1>
 
-    <form class="col-8" method="post" asp-controller="Department" asp-action="Index">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form class="col-8" method="post" asp-controller="Department" asp-action="Create">
+
+
+
         <div class="form-group mb-3">
             @* <label class="form-label" for="Code"></label> *@
             @* <input id="Code" name="Code" type="text" /> *@
@@ -32,5 +34,8 @@
             <input class="btn btn-primary" type="submit" value="Create" />
             <a class="btn btn-outline-dark" asp-controller="Department" asp-action="Index">Back to list</a>
         </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+        </div>
+
     </form>
 </div>
