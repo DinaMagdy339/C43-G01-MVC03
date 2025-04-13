@@ -1,4 +1,6 @@
 ﻿
+using MVC.DataAccess.Models.DepartmentModel;
+
 namespace MVC.DataAccess.Repositories
 {
     public interface IDepartmentRepositery
