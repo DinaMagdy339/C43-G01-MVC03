@@ -26,9 +26,9 @@ namespace MVC.BusinessLogic.Services.Classes
             var employee = _mapper.Map<CreatedEmployeeDto,Employee>(employeeDto);
             return _employeeRepositary.Add(employee);
         }
-        public int UpdateEmployee(UpdateedEmployeeDto employeeDto)
+        public int UpdateEmployee(UpdatedEmployeeDto employeeDto)
         {
-            return   _employeeRepositary.Update(_mapper.Map<UpdateedEmployeeDto, Employee>(employeeDto));
+            return   _employeeRepositary.Update(_mapper.Map<UpdatedEmployeeDto, Employee>(employeeDto));
         }
 
         public bool DeleteEmployee(int id)

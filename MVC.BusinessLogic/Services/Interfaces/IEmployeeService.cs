@@ -12,7 +12,7 @@ namespace MVC.BusinessLogic.Services.Interfaces
         IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false);
         EmployeeDetailsDto GetEmployeeById(int id);
         int CreateEmployee(CreatedEmployeeDto employeeDto);
-        int UpdateEmployee(UpdateedEmployeeDto employeeDto);
+        int UpdateEmployee(UpdatedEmployeeDto employeeDto);
         bool DeleteEmployee(int id);
     }
 }

@@ -22,7 +22,7 @@ namespace MVC.BusinessLogic.Profiles
                 .ForMember(dest => dest.HiringDate, Options => Options.MapFrom(src => DateOnly.FromDateTime(src.HiringDate)));
             CreateMap<CreatedEmployeeDto, Employee>()
                 .ForMember(dest => dest.HiringDate, Options => Options.MapFrom(src => src.HiringDate.ToDateTime(TimeOnly.MinValue)));
-            CreateMap<UpdateedEmployeeDto, Employee>()
+            CreateMap<UpdatedEmployeeDto, Employee>()
                 .ForMember(dest => dest.HiringDate, Options => Options.MapFrom(src => src.HiringDate.ToDateTime(TimeOnly.MinValue)));
 
         }
