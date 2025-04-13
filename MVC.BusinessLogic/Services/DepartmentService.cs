@@ -1,6 +1,6 @@
 ﻿using MVC.BusinessLogic.DataTransferObjects;
 using MVC.BusinessLogic.Factories;
-using MVC.DataAccess.Repositories;
+using MVC.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
