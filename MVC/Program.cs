@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MVC.BusinessLogic.Profiles;
 using MVC.BusinessLogic.Services.Classes;
 using MVC.BusinessLogic.Services.Interfaces;
 using MVC.DataAccess.Data.Contexts;
@@ -27,6 +28,8 @@ namespace MVC.Presentation
             builder.Services.AddScoped<IDepartmentRepositery, DepartmentRepositery>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
             #endregion
 
             var app = builder.Build();
