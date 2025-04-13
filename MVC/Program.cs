@@ -28,6 +28,7 @@ namespace MVC.Presentation
             builder.Services.AddScoped<IDepartmentRepositery, DepartmentRepositery>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             //builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
             #endregion

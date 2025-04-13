@@ -8,7 +8,7 @@ namespace MVC.BusinessLogic.Services.Classes
 {
     public class EmployeeService(IEmployeeRepository _employeeRepositary , IMapper _mapper) : IEmployeeService
     {
-        public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking)
+        public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
         {
             var employees = _employeeRepositary.GetAll(withTracking);
             var employeeDtos = _mapper.Map<IEnumerable<Employee>,IEnumerable<EmployeeDto>>(employees);
