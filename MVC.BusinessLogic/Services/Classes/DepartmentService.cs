@@ -1,5 +1,6 @@
-﻿using MVC.BusinessLogic.DataTransferObjects;
+﻿using MVC.BusinessLogic.DataTransferObjects.DepartmentDtos;
 using MVC.BusinessLogic.Factories;
+using MVC.BusinessLogic.Services.Interfaces;
 using MVC.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVC.BusinessLogic.Services
+namespace MVC.BusinessLogic.Services.Classes
 {
     public class DepartmentService(IDepartmentRepositery _departmentRepositery) : IDepartmentService
     {

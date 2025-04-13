@@ -1,6 +1,6 @@
-﻿using MVC.BusinessLogic.DataTransferObjects;
+﻿using MVC.BusinessLogic.DataTransferObjects.DepartmentDtos;
 
-namespace MVC.BusinessLogic.Services
+namespace MVC.BusinessLogic.Services.Interfaces
 {
     public interface IDepartmentService
     {

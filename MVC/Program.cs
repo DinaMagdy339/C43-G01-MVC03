@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using MVC.BusinessLogic.Services;
+using MVC.BusinessLogic.Services.Classes;
+using MVC.BusinessLogic.Services.Interfaces;
 using MVC.DataAccess.Data.Contexts;
 using MVC.DataAccess.Repositories.Classes;
 using MVC.DataAccess.Repositories.Interfaces;
@@ -25,6 +26,7 @@ namespace MVC.Presentation
             });
             builder.Services.AddScoped<IDepartmentRepositery, DepartmentRepositery>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             #endregion
 
             var app = builder.Build();

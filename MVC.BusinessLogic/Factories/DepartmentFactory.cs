@@ -1,4 +1,4 @@
-﻿using MVC.BusinessLogic.DataTransferObjects;
+﻿using MVC.BusinessLogic.DataTransferObjects.DepartmentDtos;
 using MVC.DataAccess.Models.DepartmentModel;
 using System;
 using System.Collections.Generic;
