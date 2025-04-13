@@ -12,6 +12,7 @@ namespace MVC.Presentation.Controllers
             var Employees = _employeeService.GetAllEmployees();
             return View(Employees);
         }
+        #region Create Employee
         [HttpGet]
         public IActionResult Create() => View();
         [HttpPost]
@@ -27,10 +28,10 @@ namespace MVC.Presentation.Controllers
                     else
                         ModelState.AddModelError(string.Empty, "Can’t create employee.");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    if(environment.IsDevelopment())
-                       ModelState.AddModelError(string.Empty, ex.Message);
+                    if (environment.IsDevelopment())
+                        ModelState.AddModelError(string.Empty, ex.Message);
                     else
                         logger.LogError(ex.Message);
                 }
@@ -38,5 +39,15 @@ namespace MVC.Presentation.Controllers
             return View(employeeDto);
 
         }
+        #endregion
+        #region Details Of Employee
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var employee = _employeeService.GetEmployeeById(id.Value);
+            return employee is null ? NotFound() : View(employee);
+        }
+        #endregion
     }
 }
