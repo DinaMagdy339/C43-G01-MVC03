@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVC.BusinessLogic.DataTransferObjects
+namespace MVC.BusinessLogic.DataTransferObjects.DepartmentDtos
 {
     public class DepartmentDetialsDto
     {
-       
+
         public int Id { get; set; }
         public int CreatedBy { get; set; }
         public DateOnly DateOfCreation { get; set; }
