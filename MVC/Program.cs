@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC.BusinessLogic.Profiles;
 using MVC.BusinessLogic.Services.Classes;
@@ -17,7 +18,11 @@ namespace MVC.Presentation
 
             #region Add services to the container.
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(Options =>
+            {
+                Options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); 
+            });
+
             //builder.Services.AddScoped<ApplicationBuilder>(); // 2- Register To Service In DI container
             builder.Services.AddDbContext<ApplicationDbContext>( options =>
             {
