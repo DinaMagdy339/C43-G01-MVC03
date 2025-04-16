@@ -1,71 +1,67 @@
-﻿using MVC.BusinessLogic.DataTransferObjects.EmployeeDtos;
+﻿using AutoMapper;
+using MVC.BusinessLogic.DataTransferObjects.EmployeeDtos;
 using MVC.BusinessLogic.Services.Interfaces;
+using MVC.DataAccess.Models.EmployeeModel;
 using MVC.DataAccess.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVC.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IEmployeeRepository _employeeRepositary) : IEmployeeService
+    public class EmployeeService(IEmployeeRepository _employeeRepositary , IMapper _mapper) : IEmployeeService
     {
-        public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking)
+        public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
         {
-            var employees = _employeeRepositary.GetAll(withTracking);
-            return employees.Select(e => new EmployeeDto
+            //var Result = _employeeRepositary.GetIEnumerable()
+            //                                .Where(E => E.IsDeleted != true)
+            //                                .Select(E => new EmployeeDto
+            //                                {
+            //                                    Id = E.Id,
+            //                                    Name = E.Name,
+            //                                    Age = E.Age,
+            //                                });
+            //return Result.ToList();
+
+            //var employees = _employeeRepositary.GetAll(withTracking);
+            //var employeeDtos = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
+            //return employeeDtos;
+
+            var employeeDto = _employeeRepositary.GetAll(E => new EmployeeDto()
             {
-                Id = e.Id,
-                Name = e.Name,
-                Salary = e.Salary,
-                IsActive = e.IsActive,
-                Age = e.Age,
-                Email = e.Email,
-                EmployeeType = e.EmployeeType.ToString(),
-                Gender = e.Gender.ToString()
+                Id = E.Id,
+                Name = E.Name,
+                Salary = E.Salary,
+                Age = E.Age,
             });
+            return employeeDto.Where(E=>E.Age>25);
         }
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
         {
            var employee = _employeeRepositary.GetById(id);
-            return employee is null ? null: new EmployeeDetailsDto
-            {
-                Id = employee.Id,
-                Name = employee.Name,
-                Age = employee.Age,
-                Email = employee.Email,
-                Address = employee.Address,
-                Salary = employee.Salary,
-                IsActive = employee.IsActive,
-                PhoneNumber = employee.PhoneNumber,
-                HiringDate = DateOnly.FromDateTime(employee.HiringDate),
-                EmployeeType = employee.EmployeeType.ToString(),
-                Gender = employee.Gender.ToString(),
-                CreatedBy = 1,
-                CreatedOn = employee.CreatedOn,
-                LastModifiedBy = 1,
-                LastModifiedOn = employee.LastModifiedOn
+            return employee is null ? null: _mapper.Map<Employee, EmployeeDetailsDto>(employee);
 
-            };
-            
         }
         public int CreateEmployee(CreatedEmployeeDto employeeDto)
         {
-            throw new NotImplementedException();
+            var employee = _mapper.Map<CreatedEmployeeDto,Employee>(employeeDto);
+            return _employeeRepositary.Add(employee);
+        }
+        public int UpdateEmployee(UpdatedEmployeeDto employeeDto)
+        {
+            return   _employeeRepositary.Update(_mapper.Map<UpdatedEmployeeDto, Employee>(employeeDto));
         }
 
         public bool DeleteEmployee(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        
-
-        public int UpdateEmployee(UpdateedEmployeeDto employeeDto)
-        {
-            throw new NotImplementedException();
-        }
+            var employee = _employeeRepositary.GetById(id);
+            if (employee is null)
+            {
+                return false;
+            }
+            else
+            {
+                employee.IsDeleted = true;
+                return _employeeRepositary.Update(employee) > 0 ? true : false ;
+            }
+        }       
     }
 }

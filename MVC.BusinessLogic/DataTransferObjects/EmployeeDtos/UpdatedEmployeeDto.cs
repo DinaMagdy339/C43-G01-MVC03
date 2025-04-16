@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MVC.BusinessLogic.DataTransferObjects.EmployeeDtos
 {
-    public class UpdateedEmployeeDto
+    public class UpdatedEmployeeDto
     {
         public int Id { get; set; }
         [Required]

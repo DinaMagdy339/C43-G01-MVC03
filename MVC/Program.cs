@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MVC.BusinessLogic.Profiles;
 using MVC.BusinessLogic.Services.Classes;
 using MVC.BusinessLogic.Services.Interfaces;
 using MVC.DataAccess.Data.Contexts;
@@ -16,7 +18,11 @@ namespace MVC.Presentation
 
             #region Add services to the container.
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(Options =>
+            {
+                Options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); 
+            });
+
             //builder.Services.AddScoped<ApplicationBuilder>(); // 2- Register To Service In DI container
             builder.Services.AddDbContext<ApplicationDbContext>( options =>
             {
@@ -27,6 +33,9 @@ namespace MVC.Presentation
             builder.Services.AddScoped<IDepartmentRepositery, DepartmentRepositery>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            //builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
             #endregion
 
             var app = builder.Build();
