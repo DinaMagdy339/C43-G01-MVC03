@@ -6,6 +6,7 @@ using MVC.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,9 +21,14 @@ namespace MVC.DataAccess.Repositories.Classes
         public IEnumerable<TEntity> GetAll(bool WithTracking = false)
         {
             if (WithTracking)
-                return _dbContext.Set<TEntity>().Where(E=>E.IsDeleted != true).ToList();
+                return _dbContext.Set<TEntity>()./*Where(E=>E.IsDeleted != true).*/ToList();
             else
-                return _dbContext.Set<TEntity>().Where(E=>E.IsDeleted != true).AsNoTracking().ToList();
+                return _dbContext.Set<TEntity>()/*.Where(E=>E.IsDeleted != true)*/.AsNoTracking().ToList();
+        }
+        public IEnumerable<TResult> GetAll<TResult>(Expression<Func<TEntity, TResult>> Selector)
+        {
+            return _dbContext.Set<TEntity>().Where(E => E.IsDeleted != true)
+                             .Select(Selector).ToList();
         }
         // Get by id
         public TEntity? GetById(int id) => _dbContext.Set<TEntity>().Find(id);
@@ -44,6 +50,16 @@ namespace MVC.DataAccess.Repositories.Classes
             _dbContext.Set<TEntity>().Add(entity); // Add Locally
             return _dbContext.SaveChanges();
         }
+
+        //public IEnumerable<TEntity> GetIEnumerable()
+        //{
+        //    return _dbContext.Set<TEntity>();
+        //}
+
+        //public IQueryable<TEntity> GetQueryable()
+        //{
+        //    return _dbContext.Set<TEntity>();
+        //}
     }
 }
 
