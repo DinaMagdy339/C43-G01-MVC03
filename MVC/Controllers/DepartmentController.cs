@@ -2,7 +2,7 @@
 using MVC.BusinessLogic.DataTransferObjects;
 using MVC.BusinessLogic.DataTransferObjects.DepartmentDtos;
 using MVC.BusinessLogic.Services.Interfaces;
-using MVC.Presentation.ViewModels.DepartmentViewModel;
+using MVC.Presentation.ViewModels.DepartmentViewModels;
 
 namespace MVC.Presentation.Controllers
 {
@@ -27,12 +27,19 @@ namespace MVC.Presentation.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDto departmentDto)
+        public IActionResult Create(DepartmentViewModel departmentViewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var departmentDto = new CreatedDepartmentDto()
+                    {
+                        Name = departmentViewModel.Name,
+                        Code = departmentViewModel.Code,
+                        Description = departmentViewModel.Description,
+                        DateOfCreation = departmentViewModel.DateOfCreation,
+                    };
                     int result = _departmentService.CreateDepartment(departmentDto);
                     if (result > 0)
                     {
@@ -55,7 +62,7 @@ namespace MVC.Presentation.Controllers
                     }
                 }
             }
-            return View(departmentDto);
+            return View(departmentViewModel);
         }
         #endregion
 
@@ -90,7 +97,7 @@ namespace MVC.Presentation.Controllers
             {
                 return NotFound();
             }
-            var departmentViewModel = new DepartmentEditViewModel()
+            var departmentViewModel = new DepartmentViewModel()
             {
                 Name = department.Name,
                 Code = department.Code,
@@ -101,7 +108,7 @@ namespace MVC.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel viewModel)
+        public IActionResult Edit([FromRoute] int id, DepartmentViewModel viewModel)
         {
             if (ModelState.IsValid)
             {

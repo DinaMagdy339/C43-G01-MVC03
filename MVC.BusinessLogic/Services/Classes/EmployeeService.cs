@@ -20,18 +20,18 @@ namespace MVC.BusinessLogic.Services.Classes
             //                                });
             //return Result.ToList();
 
-            //var employees = _employeeRepositary.GetAll(withTracking);
-            //var employeeDtos = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
-            //return employeeDtos;
+            var employees = _employeeRepositary.GetAll(withTracking);
+            var employeeDtos = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
+            return employeeDtos;
 
-            var employeeDto = _employeeRepositary.GetAll(E => new EmployeeDto()
-            {
-                Id = E.Id,
-                Name = E.Name,
-                Salary = E.Salary,
-                Age = E.Age,
-            });
-            return employeeDto.Where(E=>E.Age>25);
+            //var employeeDto = _employeeRepositary.GetAll(E => new EmployeeDto()
+            //{
+            //    Id = E.Id,
+            //    Name = E.Name,
+            //    Salary = E.Salary,
+            //    Age = E.Age,
+            //});
+            //return employeeDto.Where(E=>E.Age>25);
         }
 
         public EmployeeDetailsDto? GetEmployeeById(int id)
